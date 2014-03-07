@@ -28,19 +28,19 @@ module BunnyHop
       route = "#{settings[:prefix] || 'models'}.#{version}.#{resource}.#{action}"
       options = {routing_key: route, timestamp: Time.now.to_i, persistent: true}
 
-      return true if send(message, options)
+      return true if send_message(message, options)
 
       reconnect(1)
-      return true if send(message, options)
+      return true if send_message(message, options)
 
       reconnect(2)
-      return true if send(message, options)
+      return true if send_message(message, options)
 
       reconnect(3)
-      send(message, options, FoodRunner::Queue::Logger)
+      send_message(message, options, FoodRunner::Queue::Logger)
     end
 
-    def send(message, options, logger = nil)
+    def send_message(message, options, logger = nil)
       begin
         @exchange.publish(message, options)
         return true

@@ -6,6 +6,7 @@ require_relative 'bunnyhop/writer'
 require_relative 'bunnyhop/manager'
 require_relative 'bunnyhop/reader'
 require_relative 'bunnyhop/message'
+require_relative 'bunnyhop/tracker'
 
 module BunnyHop
   class << self
