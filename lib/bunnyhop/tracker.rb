@@ -21,8 +21,8 @@ module BunnyHop
       track_action(:delete)
     end
 
-
     def track_action(action)
+      raise 'Unconfigured tracker' unless self.class.tracker_writer
       self.class.tracker_writer.send(action, self.class.tracker_version, self.class.tracker_resource, self.id, nil)
     end
 
