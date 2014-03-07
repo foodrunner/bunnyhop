@@ -5,7 +5,7 @@ module BunnyHop
     extend ActiveSupport::Concern
 
     included do
-      after_save :track_after_create
+      after_create :track_after_create
       after_update :track_after_update
       after_destroy :track_after_destroy
       class_attribute :tracker_version, :tracker_resource, :tracker_writer
@@ -16,7 +16,11 @@ module BunnyHop
     end
 
     def track_after_update
-      track_action(:update)
+      if self.deleted_at?
+        track_action(:delete)
+      else
+        track_action(:update)
+      end
     end
 
     def track_after_destroy
