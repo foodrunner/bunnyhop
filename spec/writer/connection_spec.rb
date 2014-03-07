@@ -25,7 +25,7 @@ describe 'writer' do
       writer.close()
       writer.reconnect()
       writer.connection.status.should == :open
-      writer.delete(:v1, :user, 33).should == true
+      writer.delete(:v1, :user, 33, nil).should == true
     end
   end
 end

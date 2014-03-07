@@ -12,8 +12,8 @@ module BunnyHop
       write(:update, version, resource, id, payload, settings)
     end
 
-    def delete(version, resource, id, settings = DEFAULT_SETTINGS)
-      write(:delete, version, resource, id, nil, settings)
+    def delete(version, resource, id, payload, settings = DEFAULT_SETTINGS)
+      write(:delete, version, resource, id, payload, settings)
     end
 
     private

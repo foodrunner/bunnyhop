@@ -24,7 +24,6 @@ RSpec.configure do |config|
   config.mock_with :rspec
 end
 
-
 def read_message(route)
   EventMachine.run do
     connection = AMQP.connect({
@@ -45,16 +44,12 @@ def read_message(route)
   end
 end
 
-def assert_message(actual, expected_route, expected_id, expected_payload = nil)
+def assert_message(actual, expected_route, expected_id, expected_payload)
   parts = expected_route.split('.')
   actual[:version].should == parts[0]
   actual[:resource].should == parts[1]
   actual[:action].should == parts[2]
   actual[:id].should == expected_id
   actual[:client].should == CONFIG[:application]
-  if expected_payload.nil?
-    actual.include?(:payload).should == false
-  else
-    actual[:payload].should == expected_payload
-  end
+  actual[:payload].should == expected_payload
 end

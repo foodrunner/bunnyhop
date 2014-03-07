@@ -1,3 +1,5 @@
+require 'active_support'
+
 module BunnyHop
   module Tracker
     extend ActiveSupport::Concern
@@ -21,9 +23,9 @@ module BunnyHop
       track_action(:delete)
     end
 
-    def track_action(action)
+    def track_action(action, payload = nil)
       raise 'Unconfigured tracker' unless self.class.tracker_writer
-      self.class.tracker_writer.send(action, self.class.tracker_version, self.class.tracker_resource, self.id, nil)
+      self.class.tracker_writer.send(action, self.class.tracker_version, self.class.tracker_resource, self.id, payload)
     end
 
     module ClassMethods

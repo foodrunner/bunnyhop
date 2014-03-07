@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'eventmachine', '~> 1.0'
   gem.add_runtime_dependency 'amqp', '~> 1.3'
   gem.add_runtime_dependency 'oj', '~> 2.5'
+  gem.add_runtime_dependency 'active_support', '~> 3.0.0'
 end
