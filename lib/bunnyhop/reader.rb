@@ -10,12 +10,14 @@ module BunnyHop
 
     def run(name, controller, settings = {})
       count = settings.fetch(:count, -1)
+      closed = false
       EventMachine.run do
         conn = AMQP.connect(@config)
         conn.on_tcp_connection_loss {|c,s| c.reconnect()}
         channel = AMQP::Channel.new(conn, auto_recovery: true, prefetch: 1)
         queue = channel.queue(name, BunnyHop::Base::DEFAULT_MESSAGE_OPTIONS)
         queue.subscribe(:ack => true) do |meta, raw|
+          next if closed
           handled = false
           for i in 0..3 do
             sleep(i) unless i == 0
@@ -30,7 +32,7 @@ module BunnyHop
           count -= 1
           if count == 0 || handled == false
             conn.close { EventMachine.stop }
-            return
+            closed = true
           end
         end
       end
