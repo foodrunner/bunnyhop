@@ -28,7 +28,10 @@ module BunnyHop
             break if handled
           end
           count -= 1
-          conn.close { EventMachine.stop } if count == 0 || handled == false
+          if count == 0 || handled == false
+            conn.close { EventMachine.stop }
+            return
+          end
         end
       end
     end
